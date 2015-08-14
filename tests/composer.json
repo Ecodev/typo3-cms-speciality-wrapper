@@ -12,11 +12,12 @@
 		}
 	],
 	"require": {
-		"behat/behat": "2.4.*@stable",
-		"behat/mink": "1.4.*@stable",
+		"behat/behat": "~3.0",
+		"behat/mink": "*",
 		"behat/mink-extension": "*",
 		"behat/mink-goutte-driver": "*",
 		"behat/mink-selenium2-driver": "*",
+		"behat/mink-browserkit-driver": "*",
 		"phing/phing": "dev-master"
 	},
 	"config": {

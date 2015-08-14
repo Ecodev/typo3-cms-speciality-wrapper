@@ -15,16 +15,6 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext {
 
 	/**
-	 * Initializes context.
-	 * Every scenario gets it's own context object.
-	 *
-	 * @param array $parameters context parameters (set them up through behat.yml)
-	 */
-	public function __construct(array $parameters) {
-		// Initialize your context here
-	}
-
-	/**
 	 * @Then /^I should access all pages of site map "([^"]*)"$/
 	 */
 	public function iShouldAccessAllPagesOfSiteMap($selector) {
@@ -36,6 +26,8 @@ class FeatureContext extends MinkContext {
 		$steps = array();
 		foreach ($elements as $element) {
 			/** @var \Behat\Mink\Element\NodeElement $element */
+			// @todo fix me!
+			// https://github.com/Behat/Behat/issues/546 : That's what I want. But, ...in V3. Step reusable, scenario reusable.
 			$steps[] = new Behat\Behat\Context\Step\When(sprintf('I print out page "%s"', $element->getAttribute('href')));
 			$steps[] = new Behat\Behat\Context\Step\When(sprintf('I go to "%s"', $element->getAttribute('href')));
 			$steps[] = new Behat\Behat\Context\Step\Then('the response status code should be 200');
@@ -58,5 +50,3 @@ class FeatureContext extends MinkContext {
 		sleep($seconds);
 	}
 }
-
-?>
