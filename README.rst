@@ -13,64 +13,35 @@ Installation
 ::
 
 	# Download via composer
-	composer create-project ecodev/typo3-cms-speciality-wrapper speciality.distribution --repository-url=https://github.com/Ecodev/typo3-cms-speciality-distribution.git --prefer-source --keep-vcs
+	composer create-project ecodev/typo3-cms-speciality-distribution htdocs dev-master
+	cd htdocs
+	composer update
 
+Once done, here are the usually steps that I do:
 
-Phing build
-===========
+Edit file `htdocs/.gitignore` and add all files to the git repository.
 
-`Phing`_: is a build system for PHP and is used to replicate the website between production and development and do some low level tasks.
-Also make sure to have a look at the `Frontend Development Workflow`_ which integrates itself with this build system
-Some instructions how to get started with this development workflow::
+::
 
-	# Head to the home
-	cd bootstrap_package
+	cd htdocs
+	nano .gitignore
 
-	# Installation of Composer is not already done
-	curl -sS https://getcomposer.org/installer | php
+	-> /typo3conf/ext/*
+	-> !/typo3conf/ext/speciality
+	-> remove LocalConfiguration + AdditionalConfiguration
 
-	# Optional: install it globally. You may need to reload your terminal.
-	mv composer.phar /usr/local/bin/composer
+	cd ..
+	git add .
 
-	# Install dependencies
-	# If Composer is installed globally "composer install" is enought
-	# This will basically installed Phing locally for this website.
-	php composer.phar install
+Next step is to configure the Virtual Host and local host name in /etc/hosts if developping locally.
+After that open the browser pointing to the Virtual Host and follow the instructions. Eventually, install the Speciality distribution.
+To finish the install, make sure to:
 
-	./bin/phing
-	-> read carefully instruction. A file must be generated in `configuration`.
-
-	./bin/phing help
-
-	[echo] ---------------------------------------------
-	[echo] Handle cache
-	[echo] ---------------------------------------------
-	[echo] phing clear_cache     - Flush cached files along with database cache (depth 3)
-	[echo] phing warmup          - Call Frontend to generate necessary files
-	[echo]
-	[echo] phing c               - Clear cache, depth 1: typo3temp/Cache files
-	[echo] phing cc              - Clear cache, depth 2: all typo3temp files
-	[echo] phing ccc             - Clear cache, depth 3: all typo3temp files + database
-	[echo]
-	[echo] ---------------------------------------------
-	[echo] Import website locally
-	[echo] ---------------------------------------------
-	[echo] phing show            - Show Phing current configuration
-	[echo] phing import-dump     - Fetch the database and build it again locally for TYPO3 6.0
-	[echo] phing htaccess        - Fetch the htaccess from the remote server
-	[echo] phing symlink         - Create symlinks to the core, current value "/t3core/typo3_src-6.1"
-	[echo] phing uploads         - Fetch uploads folder
-	[echo] phing fileadmin       - Fetch fileadmin
-	[echo] phing user_upload     - Fetch user_upload folder
-	[echo]
-	[echo] phing d               - import-dump
-	[echo] phing initialize6     - import-dump, htaccess, symlink, uploads, fileadmin
-	[echo] phing reset           - import-dump, clear_cache, warmup
-
-.. _Frontend Development Workflow:
-.. _Phing: http://www.phing.info/
-
-
+* Remove "speciality_distribution" and "speciality" from composer.json
+* Remove the DB credientials from LocalConfiguration and add them into ../configuration/Settings.php
+* Configure RealURL in the EM with this path `typo3conf/ext/speciality/Configuration/RealUrl/Configuration.php`
+* Add sys_domain on the root page and test http://domain.tld/sitemap.xml
+* Add at the end of robots.txt: Sitemap: http://www.domain.tld/sitemap.xml
 
 Behavior-driven development
 ===========================
