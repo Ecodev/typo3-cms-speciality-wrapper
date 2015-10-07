@@ -42,6 +42,7 @@ To finish the install, make sure to:
 * Configure RealURL in the EM with this path `typo3conf/ext/speciality/Configuration/RealUrl/Configuration.php`
 * Add sys_domain on the root page and test http://domain.tld/sitemap.xml
 * Add at the end of robots.txt: Sitemap: http://www.domain.tld/sitemap.xml
+* Truncate table `sys_news`
 
 Behavior-driven development
 ===========================
